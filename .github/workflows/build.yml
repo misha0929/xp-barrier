@@ -24,8 +24,7 @@ jobs:
           PROJECT_DIR=$(dirname "$GRADLEW")
           cd "$PROJECT_DIR"
           chmod +x gradlew
-          cp "$GITHUB_WORKSPACE/XPBarrier.java" "$PROJECT_DIR/src/main/java/xpbarrier/XPBarrier.java"
-          ./gradlew build
+          cp "$GITHUB_WORKSPACE/XPBarrier.java" "src/main/java/xpbarrier/XPBarrier.java"
 
       - uses: actions/upload-artifact@v4
         with:

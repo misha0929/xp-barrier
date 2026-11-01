@@ -1,0 +1,32 @@
+name: Build XP Barrier
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Build mod
+        run: |
+          ZIP_FILE=$(find . -maxdepth 1 -name '*.zip' -print -quit)
+          mkdir extracted
+          unzip "$ZIP_FILE" -d extracted
+          GRADLEW=$(find extracted -type f -name gradlew -print -quit)
+          PROJECT_DIR=$(dirname "$GRADLEW")
+          cd "$PROJECT_DIR"
+          chmod +x gradlew
+          ./gradlew build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: xp-barrier-mod
+          path: extracted/**/build/libs/*.jar
